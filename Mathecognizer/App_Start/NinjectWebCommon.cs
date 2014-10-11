@@ -64,7 +64,7 @@ namespace Mathecognizer.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<MSEngine>().To<MSEngine>().InRequestScope();
+            //kernel.Bind<MSEngine>().ToSelf().InRequestScope();
             kernel.Bind<ILatexService>().To<LatexService>().InRequestScope();
             kernel.Bind<ServiceHost>().To<NinjectServiceHost>().InRequestScope();
             kernel.Bind<IRecognizerService>().To<RecognizerService>().InRequestScope();

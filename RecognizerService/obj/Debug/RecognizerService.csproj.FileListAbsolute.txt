@@ -1,7 +1,0 @@
-E:\Google Drive\Projects\TDevs\2014\MSRecognizer\MSRecognizer\RecognizerService\obj\Debug\RecognizerService.csprojResolveAssemblyReference.cache
-E:\Google Drive\Projects\TDevs\2014\MSRecognizer\MSRecognizer\RecognizerService\bin\Debug\RecognizerService.dll
-E:\Google Drive\Projects\TDevs\2014\MSRecognizer\MSRecognizer\RecognizerService\bin\Debug\RecognizerService.pdb
-E:\Google Drive\Projects\TDevs\2014\MSRecognizer\MSRecognizer\RecognizerService\bin\Debug\Microsoft.Ink.dll
-E:\Google Drive\Projects\TDevs\2014\MSRecognizer\MSRecognizer\RecognizerService\bin\Debug\mmltex.dll
-E:\Google Drive\Projects\TDevs\2014\MSRecognizer\MSRecognizer\RecognizerService\obj\Debug\RecognizerService.dll
-E:\Google Drive\Projects\TDevs\2014\MSRecognizer\MSRecognizer\RecognizerService\obj\Debug\RecognizerService.pdb

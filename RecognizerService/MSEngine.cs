@@ -17,11 +17,18 @@ namespace RecognizerService
         private Process _mipProcess;
         private AutomationElement _mipAutomationElement;
         private AutomationElement _resultTextBoxAutomationElement;
-        private static micautLib.MathInputControl _mipControl;
+        private micautLib.MathInputControl _mipControl;
         private string _result;
 
         public MSEngine()
         {
+
+        }
+
+        public void StartMIP()
+        {
+            if (_mipControl == null)
+            {
                 _mipControl = new micautLib.MathInputControl();
 
                 _mipControl.Close += Application.ExitThread;
@@ -30,17 +37,28 @@ namespace RecognizerService
 
                 //var ink = new MSINKAUTLib.InkDisp();
                 //ink.Load(System.IO.File.ReadAllBytes("E:\\inkData.isf"));
-
-                //var iink = (micautLib.IInkDisp)ink;
-                _mipControl.Show();
+                //var iink = (micautLib.IInkDisp)ink;     
                 //_mipControl.LoadInk(iink);
 
+                _mipControl.Show();
+                _mipAutomationElement = AutomationElement.RootElement.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, Constants.ServiceName));
+            }
 
-                _mipAutomationElement = AutomationElement.RootElement.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, "Math Input Panel"));
-           }
+            
+        }
 
+        public void EndMIP()
+        {
+            ///_mipControl.Hide();
+            //InvokeControl("Close");
 
+            //this.Dispose();
 
+        }
+        /// <summary>
+        /// Hook onInsert method
+        /// </summary>
+        /// <param name="xml"></param>
         protected void OnInsert(string xml)
         {
             try
@@ -54,6 +72,10 @@ namespace RecognizerService
             }
         }
 
+
+        /// <summary>
+        /// Dispose
+        /// </summary>
         public void Dispose()
         {
             if (_mipProcess != null)
@@ -63,6 +85,10 @@ namespace RecognizerService
             }
         }
 
+
+        /// <summary>
+        /// Get Latex result
+        /// </summary>
         public string Result
         {
             get
@@ -87,23 +113,11 @@ namespace RecognizerService
             //}
         }
 
-        public AutomationElement GetDigitButton(int number)
-        {
-            if ((number < 0) || (number > 9))
-            {
-                throw new InvalidOperationException("mumber must be a digit 0-9");
-            }
-
-            AutomationElement buttonElement = _mipAutomationElement.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.NameProperty, number.ToString()));
-
-            if (buttonElement == null)
-            {
-                throw new InvalidOperationException("Could not find button corresponding to digit" + number);
-            }
-
-            return buttonElement;
-        }
-
+        /// <summary>
+        /// Get control with Button type
+        /// </summary>
+        /// <param name="buttonName"></param>
+        /// <returns></returns>
         public AutomationElement GetButton(string buttonName)
         {
             Condition conditions = new AndCondition(
@@ -121,6 +135,12 @@ namespace RecognizerService
 
         }
 
+
+        /// <summary>
+        /// Automation Invoker
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
         public InvokePattern GetInvokePattern(AutomationElement element)
         {
             if (element != null)
@@ -128,21 +148,28 @@ namespace RecognizerService
             return default(InvokePattern);
         }
 
-
-        public void GetSample(string text)
+        /// <summary>
+        /// Automation Invoke control
+        /// </summary>
+        /// <param name="text"></param>
+        public void InvokeControl(string text)
         {
             GetInvokePattern(GetButton(text)).Invoke();
-            _mipControl = null;
         }
 
-        public void Reload(int[] points)
+
+        /// <summary>
+        /// Invoke MIP control
+        /// </summary>
+        /// <param name="points"></param>
+        public void SendToMIP(int[] points)
         {
             var TheInk = new MSINKAUTLib.InkDisp();
             var obj = TheInk.CreateStroke(points, null);
             var iink = (micautLib.IInkDisp)TheInk;
             _mipControl.LoadInk(iink);
 
-            GetSample("Insert");
+            InvokeControl("Insert");
         }
     }
 }

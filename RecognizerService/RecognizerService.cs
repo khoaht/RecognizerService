@@ -23,15 +23,12 @@ namespace RecognizerService
         {
             this.msEngine = msEngine;
         }
-        public string DoSample()
-        {
-            msEngine.GetSample("Insert");
-            return msEngine.Result;
-        }
 
-        public void  Submit(int[] points)
+        public void Submit(int[] points)
         {
-            msEngine.Reload(points);
+            msEngine.StartMIP();
+            msEngine.SendToMIP(points);
+
         }
 
 
@@ -42,12 +39,19 @@ namespace RecognizerService
 
         private void OnCallBack()
         {
-            msEngine.GetSample("Insert"); 
+
+            msEngine.InvokeControl("Insert");
         }
 
         public void CallBack()
         {
             OnCallBack();
+        }
+
+
+        public void End()
+        {
+            msEngine.EndMIP();
         }
     }
 }

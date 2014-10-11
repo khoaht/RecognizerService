@@ -12,9 +12,9 @@ namespace RecognizerService
 {
     public interface IRecognizerService
     {       
-        string DoSample();
         void Submit(int[] points);
         string Result { get; }
         void CallBack();
+        void End();
     }
 }

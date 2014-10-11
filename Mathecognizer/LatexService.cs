@@ -23,12 +23,22 @@ namespace MathRecognizer
             this.service = service;
         }
  
+        /// <summary>
+        /// Get Single latex
+        /// </summary>
+        /// <param name="points"></param>
+        /// <returns></returns>
         public string GetSingleLatex(int[] points)
         {
             try
             {
                 service.Submit(points);
                 service.CallBack();
+                while (string.IsNullOrEmpty(service.Result))
+                {
+                    service.CallBack();
+                }
+                service.End();
                 return service.Result;
             }
             catch (Exception ex)
