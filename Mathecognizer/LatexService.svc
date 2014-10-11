@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="MathRecognizer.LatexService" CodeBehind="LatexService" Factory="Ninject.Extensions.Wcf.NinjectServiceHostFactory" %>
