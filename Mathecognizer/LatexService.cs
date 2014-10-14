@@ -32,14 +32,8 @@ namespace MathRecognizer
         {
             try
             {
-                service.Submit(points);
-                service.CallBack();
-                while (string.IsNullOrEmpty(service.Result))
-                {
-                    service.CallBack();
-                }
-                service.End();
-                return service.Result;
+                var result = service.Submit(points);
+                return result;
             }
             catch (Exception ex)
             {

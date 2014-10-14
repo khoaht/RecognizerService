@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="MSEngine.cs" />
     <Compile Include="IRecognizerService.cs" />
     <Compile Include="RecognizerService.cs" />

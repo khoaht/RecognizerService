@@ -12,7 +12,7 @@ namespace RecognizerService
 {
     public interface IRecognizerService
     {       
-        void Submit(int[] points);
+        string Submit(int[] points);
         string Result { get; }
         void CallBack();
         void End();

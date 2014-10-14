@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Automation;
 using System.Windows.Forms;
@@ -14,10 +15,8 @@ namespace RecognizerService
 {
     public class MSEngine : IDisposable
     {
-        private Process _mipProcess;
-        private AutomationElement _mipAutomationElement;
-        private AutomationElement _resultTextBoxAutomationElement;
-        private micautLib.MathInputControl _mipControl;
+        private  AutomationElement _mipAutomationElement;
+        private  micautLib.MathInputControl _mipControl;
         private string _result;
 
         public MSEngine()
@@ -27,33 +26,29 @@ namespace RecognizerService
 
         public void StartMIP()
         {
-            if (_mipControl == null)
+            // if (_mipControl == null)
             {
                 _mipControl = new micautLib.MathInputControl();
-
+                var centerOfScreen = Screen.AllScreens[0].WorkingArea.Center();
+                _mipControl.CenterOn(centerOfScreen);
+                _mipControl.EnableExtendedButtons(true);
+                _mipControl.EnableAutoGrow(true);
                 _mipControl.Close += Application.ExitThread;
                 _mipControl.Insert += OnInsert;
+
                 _mipControl.SetCaptionText(Constants.ServiceName);
-
-                //var ink = new MSINKAUTLib.InkDisp();
-                //ink.Load(System.IO.File.ReadAllBytes("E:\\inkData.isf"));
-                //var iink = (micautLib.IInkDisp)ink;     
-                //_mipControl.LoadInk(iink);
-
                 _mipControl.Show();
+                _mipControl.EnableExtendedButtons(true);
                 _mipAutomationElement = AutomationElement.RootElement.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, Constants.ServiceName));
+
             }
 
-            
+
         }
 
         public void EndMIP()
         {
-            ///_mipControl.Hide();
-            //InvokeControl("Close");
-
-            //this.Dispose();
-
+            Dispose();
         }
         /// <summary>
         /// Hook onInsert method
@@ -78,10 +73,10 @@ namespace RecognizerService
         /// </summary>
         public void Dispose()
         {
-            if (_mipProcess != null)
+            if (_mipControl!=null)
             {
-                _mipProcess.CloseMainWindow();
-                _mipProcess.Dispose();
+                _mipControl.Hide();
+                _mipControl = null;
             }
         }
 
@@ -95,22 +90,6 @@ namespace RecognizerService
             {
                 return _result;
             }
-
-            //get
-            //{
-            //    return _resultTextBoxAutomationElement.GetCurrentPropertyValue(AutomationElement.NameProperty);
-            //}
-            //set
-            //{
-            //    string stringRep = value.ToString();
-
-            //    for (int index = 0; index < stringRep.Length; index++)
-            //    {
-            //        int leftDigit = int.Parse(stringRep[index].ToString());
-
-            //        GetInvokePattern(GetDigitButton(leftDigit)).Invoke();
-            //    }
-            //}
         }
 
         /// <summary>
@@ -129,10 +108,23 @@ namespace RecognizerService
 
                   );
 
-            //var buttonElement = _mipAutomationElement.FindFirst(TreeScope.Descendants, conditions);
             AutomationElement buttonElement = AutomationElement.RootElement.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.NameProperty, buttonName));
             return buttonElement;
 
+        }
+
+        public AutomationElement GetControlItem(AutomationElement element, ControlType controType, string buttonName)
+        {
+            Condition conditions = new AndCondition(
+                  new PropertyCondition(AutomationElement.IsEnabledProperty, true),
+                  new PropertyCondition(AutomationElement.ControlTypeProperty,
+                     controType)
+                , new PropertyCondition(AutomationElement.NameProperty,
+                buttonName)
+                  );
+
+            AutomationElement buttonElement = AutomationElement.RootElement.FindFirst(TreeScope.Descendants, conditions);
+            return buttonElement;
         }
 
 
@@ -157,19 +149,41 @@ namespace RecognizerService
             GetInvokePattern(GetButton(text)).Invoke();
         }
 
+        public void InvokeControl(AutomationElement element, ControlType type, string controlText)
+        {
+            GetInvokePattern(GetControlItem(element, type, controlText)).Invoke();
+        }
+
+
 
         /// <summary>
         /// Invoke MIP control
         /// </summary>
         /// <param name="points"></param>
-        public void SendToMIP(int[] points)
+        public string SendToMIP(int[] points)
         {
-            var TheInk = new MSINKAUTLib.InkDisp();
-            var obj = TheInk.CreateStroke(points, null);
-            var iink = (micautLib.IInkDisp)TheInk;
-            _mipControl.LoadInk(iink);
+            string result = string.Empty;
+            lock (_mipControl)
+            {
+                var TheInk = new MSINKAUTLib.InkDisp();
+                var obj = TheInk.CreateStroke(points, null);
+                var iink = (micautLib.IInkDisp)TheInk;
+                _mipControl.LoadInk(iink);
 
-            InvokeControl("Insert");
+
+
+                int ct = 0;
+                do
+                {
+                    if (_mipAutomationElement != null)
+                        InvokeControl(_mipAutomationElement, ControlType.Button, "Insert");
+
+                    result = Result;
+                    ct++;
+                } while (string.IsNullOrEmpty(result));
+            }
+
+            return result;
         }
     }
 }

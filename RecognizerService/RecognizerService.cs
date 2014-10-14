@@ -24,11 +24,14 @@ namespace RecognizerService
             this.msEngine = msEngine;
         }
 
-        public void Submit(int[] points)
+        public string Submit(int[] points)
         {
-            msEngine.StartMIP();
-            msEngine.SendToMIP(points);
+            string result = string.Empty;
 
+            msEngine.StartMIP();
+            result =  msEngine.SendToMIP(points);
+            msEngine.EndMIP();
+            return result;
         }
 
 
