@@ -27,9 +27,8 @@ namespace RecognizerService
         public string Submit(int[] points)
         {
             string result = string.Empty;
-
             msEngine.StartMIP();
-            result =  msEngine.SendToMIP(points);
+            result = msEngine.SendToMIP(points);
             msEngine.EndMIP();
             return result;
         }

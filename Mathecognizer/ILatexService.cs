@@ -19,7 +19,20 @@ namespace MathRecognizer
 
 
         [OperationContract]
-        string TestLatex();
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            RequestFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Wrapped,
+            UriTemplate = "GetLatex/{strokes}")]
+        string GetLatex(string strokes);
+
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Wrapped,
+            UriTemplate = "TestLatex/{id}")]
+        string TestLatex(string id);
 
     }
 

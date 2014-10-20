@@ -26,7 +26,7 @@ namespace RecognizerService
 
         public void StartMIP()
         {
-            // if (_mipControl == null)
+            if (_mipControl == null)
             {
                 _mipControl = new micautLib.MathInputControl();
                 var centerOfScreen = Screen.AllScreens[0].WorkingArea.Center();
@@ -41,8 +41,8 @@ namespace RecognizerService
                 _mipControl.EnableExtendedButtons(true);
                 _mipAutomationElement = AutomationElement.RootElement.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, Constants.ServiceName));
 
-            }
-
+            }           
+            
 
         }
 
@@ -169,8 +169,6 @@ namespace RecognizerService
                 var obj = TheInk.CreateStroke(points, null);
                 var iink = (micautLib.IInkDisp)TheInk;
                 _mipControl.LoadInk(iink);
-
-
 
                 int ct = 0;
                 do
