@@ -23,10 +23,11 @@ namespace RecognizerApi.Controllers
             try
             {
                 var arrs = points.Split(',');
-                int[] pnts = new int[arrs.Length];
-                for (int i = 0; i < arrs.Length; i++)
+                int length=arrs.Length;
+                int[] pnts = new int[length];
+                for (int i = 0; i < length; i++)
                 {
-                    pnts[i] = int.Parse(arrs[i]);
+                    pnts[i] = int.Parse(string.IsNullOrEmpty(arrs[i]) ? "0" : arrs[i]);
                 }
                 var result = service.Submit(pnts);
                 return result;
