@@ -61,6 +61,8 @@ namespace RecognizerApi.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            //kernel.Bind<micautLib.MathInputControl>().To<micautLib.MathInputControl>();
+            kernel.Bind<MSEngine>().To<MSEngine>();
             kernel.Bind<MipController>().To<MipController>();
             kernel.Bind<IRecognizerService>().To<RecognizerService>().InRequestScope();
         }        

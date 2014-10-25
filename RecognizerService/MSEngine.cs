@@ -15,18 +15,19 @@ namespace RecognizerService
 {
     public class MSEngine : IDisposable
     {
-        private  AutomationElement _mipAutomationElement;
-        private  micautLib.MathInputControl _mipControl;
+        private AutomationElement _mipAutomationElement;
+        private micautLib.MathInputControl _mipControl;
         private string _result;
+        private bool inProgress = false;
 
         public MSEngine()
         {
-
+           
         }
 
         public void StartMIP()
         {
-            if (_mipControl == null)
+             if (_mipControl == null)
             {
                 _mipControl = new micautLib.MathInputControl();
                 var centerOfScreen = Screen.AllScreens[0].WorkingArea.Center();
@@ -41,8 +42,8 @@ namespace RecognizerService
                 _mipControl.EnableExtendedButtons(true);
                 _mipAutomationElement = AutomationElement.RootElement.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, Constants.ServiceName));
 
-            }           
-            
+            }
+
 
         }
 
@@ -73,7 +74,7 @@ namespace RecognizerService
         /// </summary>
         public void Dispose()
         {
-            if (_mipControl!=null)
+            if (_mipControl != null)
             {
                 _mipControl.Hide();
                 _mipControl = null;
@@ -124,6 +125,7 @@ namespace RecognizerService
                   );
 
             AutomationElement buttonElement = AutomationElement.RootElement.FindFirst(TreeScope.Descendants, conditions);
+            //AutomationElement buttonElement = element.FindFirst(TreeScope.Descendants, conditions);
             return buttonElement;
         }
 
@@ -135,8 +137,17 @@ namespace RecognizerService
         /// <returns></returns>
         public InvokePattern GetInvokePattern(AutomationElement element)
         {
-            if (element != null)
-                return element.GetCurrentPattern(InvokePattern.Pattern) as InvokePattern;
+            if (element != null && inProgress)
+            {
+                lock (element)
+                {
+                    var pt = element.GetCurrentPattern(InvokePattern.Pattern) as InvokePattern;
+                    Thread.Sleep(50);
+                    inProgress = false;
+                    return pt;
+                }
+
+            }
             return default(InvokePattern);
         }
 
@@ -146,12 +157,48 @@ namespace RecognizerService
         /// <param name="text"></param>
         public void InvokeControl(string text)
         {
-            GetInvokePattern(GetButton(text)).Invoke();
+            var button = GetButton(text);
+            bool bInvoke = (bool)button.GetCurrentPropertyValue(AutomationElement.IsInvokePatternAvailableProperty);
+            if (bInvoke)
+            {
+                InvokePattern click = button.GetCurrentPattern(InvokePattern.Pattern) as InvokePattern;
+                try
+                {
+                    click.Invoke();
+                }
+                catch (Exception e)
+                {
+                    //MessageBox.Show("Invoke error! " + e.Message);
+                    Thread.Sleep(100);
+                    //Console.WriteLine("Invoke error! : " + e.Message);
+                }
+            }
+
+
+            //GetInvokePattern(GetButton(text)).Invoke();
         }
 
         public void InvokeControl(AutomationElement element, ControlType type, string controlText)
         {
-            GetInvokePattern(GetControlItem(element, type, controlText)).Invoke();
+            var button = GetControlItem(element, type, controlText);
+            bool bInvoke = (bool)button.GetCurrentPropertyValue(AutomationElement.IsInvokePatternAvailableProperty);
+            if (bInvoke)
+            {
+                InvokePattern click = button.GetCurrentPattern(InvokePattern.Pattern) as InvokePattern;
+                try
+                {
+                    click.Invoke();
+                }
+                catch (Exception e)
+                {
+                    //MessageBox.Show("Invoke error! " + e.Message);
+                    Thread.Sleep(100);
+                    //Console.WriteLine("Invoke error! : " + e.Message);
+                }
+            }
+
+            
+            //GetInvokePattern(GetControlItem(element, type, controlText)).Invoke();
         }
 
 
@@ -162,7 +209,7 @@ namespace RecognizerService
         /// <param name="points"></param>
         public string SendToMIP(int[] points)
         {
-            string result = string.Empty;
+            //string result = string.Empty;
             lock (_mipControl)
             {
                 var TheInk = new MSINKAUTLib.InkDisp();
@@ -170,18 +217,20 @@ namespace RecognizerService
                 var iink = (micautLib.IInkDisp)TheInk;
                 _mipControl.LoadInk(iink);
 
-                int ct = 0;
-                do
-                {
-                    if (_mipAutomationElement != null)
-                        InvokeControl(_mipAutomationElement, ControlType.Button, "Insert");
-
-                    result = Result;
-                    ct++;
-                } while (string.IsNullOrEmpty(result));
+                //int ct = 0;
+                //do
+                //{
+                //    if (_mipAutomationElement != null)
+                //    {
+                //        InvokeControl(_mipAutomationElement, ControlType.Button, "Insert");
+                //        Thread.Sleep(50);    
+                //    }                    
+                //    result = Result;
+                //    ct++;
+                //} while (string.IsNullOrEmpty(result) && ct < 50);
             }
 
-            return result;
+            return Result;
         }
     }
 }

@@ -28,16 +28,13 @@
 
         var urlExt = "http://localhost:50012/Home/GetFraz";
         var urlExt1 = "http://logviet.com:8069/api/mip/GetFraz";
-        var urlExt2 = "http://localhost:50012/api/mip/GetSymbol";
-
-        var request = "<SegmentList><Segment type=\"pen_stroke\" instanceID=\"3\" scale=\"1,1\" translation=\"769,50\" 	points=\"0,14|0,14|1,14|10,14|25,16|46,21|72,25|106,30|135,35|158,36|177,36|190,36|198,36|205,36|209,36|211,36|212,35|212,29|212,25|212,19|212,13|212,8|212,5|210,1|210,0|209,0|208,0\"/></SegmentList>";
         $.ajax({
             //contentType: "application/json",
             type: 'GET',
-            url: urlExt2,
+            url: urlExt,
             async: false,
             //dataType: "xml",
-            data: { request: request },
+            data: { points: points },
             success: (function (in_data, textStatus, xmlhttp) {
                 var result = xmlhttp.responseText; // this is the server's response string
                 alert(result);
@@ -49,18 +46,18 @@
            )
         });
 
-        //  var jqxhr = $.getJSON(urlExt1, function () {
-        //      console.log("success");
-        //  })
-        //.done(function () {
-        //    alert("second success");
-        //})
-        //.fail(function () {
-        //    alert("error");
-        //})
-        //.always(function () {
-        //    alert("complete");
-        //});
+      //  var jqxhr = $.getJSON(urlExt1, function () {
+      //      console.log("success");
+      //  })
+      //.done(function () {
+      //    alert("second success");
+      //})
+      //.fail(function () {
+      //    alert("error");
+      //})
+      //.always(function () {
+      //    alert("complete");
+      //});
 
         // Perform other work here ...
 
