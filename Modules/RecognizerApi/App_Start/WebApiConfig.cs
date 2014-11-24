@@ -29,6 +29,12 @@ namespace RecognizerApi
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            // this i added
+            config.Routes.MapHttpRoute(
+                name: "Action",
+                routeTemplate: "api/{controller}/{action}/{disposition}"
+             );
         }
     }
 }

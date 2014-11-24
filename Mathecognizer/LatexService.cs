@@ -44,6 +44,22 @@ namespace MathRecognizer
             return string.Empty;
         }
 
+        public string GetSingleLatex(IList<StrokeData> strokes)
+        {
+            try
+            {
+                var result = service.Submit(strokes);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+            }
+
+            return string.Empty;
+        }
+
         public string TestLatex(string id)
         {
             return string.Format("$x$");

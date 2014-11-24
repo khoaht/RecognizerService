@@ -16,5 +16,7 @@ namespace RecognizerService
         string Result { get; }
         void CallBack();
         void End();
+
+        string Submit(IList<StrokeData> strokes);
     }
 }

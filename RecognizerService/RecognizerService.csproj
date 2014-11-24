@@ -65,6 +65,7 @@
     <Compile Include="IRecognizerService.cs" />
     <Compile Include="RecognizerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StrokeData.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

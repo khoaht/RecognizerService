@@ -22,12 +22,12 @@ namespace RecognizerService
 
         public MSEngine()
         {
-           
+
         }
 
         public void StartMIP()
         {
-             if (_mipControl == null)
+            if (_mipControl == null)
             {
                 _mipControl = new micautLib.MathInputControl();
                 var centerOfScreen = Screen.AllScreens[0].WorkingArea.Center();
@@ -197,7 +197,7 @@ namespace RecognizerService
                 }
             }
 
-            
+
             //GetInvokePattern(GetControlItem(element, type, controlText)).Invoke();
         }
 
@@ -216,18 +216,28 @@ namespace RecognizerService
                 var obj = TheInk.CreateStroke(points, null);
                 var iink = (micautLib.IInkDisp)TheInk;
                 _mipControl.LoadInk(iink);
+            }
 
-                //int ct = 0;
-                //do
-                //{
-                //    if (_mipAutomationElement != null)
-                //    {
-                //        InvokeControl(_mipAutomationElement, ControlType.Button, "Insert");
-                //        Thread.Sleep(50);    
-                //    }                    
-                //    result = Result;
-                //    ct++;
-                //} while (string.IsNullOrEmpty(result) && ct < 50);
+            return Result;
+        }
+
+        /// <summary>
+        /// Invoke MIP control
+        /// </summary>
+        /// <param name="points"></param>
+        public string SendToMIP(IList<int[]> points)
+        {
+            //string result = string.Empty;
+            lock (_mipControl)
+            {
+                var TheInk = new MSINKAUTLib.InkDisp();
+                foreach (int[] item in points)
+                {
+                    TheInk.CreateStroke(item, null);
+                }
+
+                var iink = (micautLib.IInkDisp)TheInk;
+                _mipControl.LoadInk(iink);
             }
 
             return Result;

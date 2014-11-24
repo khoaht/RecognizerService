@@ -9,6 +9,7 @@ using System.Web.Http.Cors;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using RecognizerApi.Models;
+using RecognizerService;
 
 namespace RecognizerApi.Controllers
 {
@@ -47,30 +48,51 @@ namespace RecognizerApi.Controllers
             return string.Empty;
         }
 
+
+        /// <summary>
+        /// handle dropping of the mouse events
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public HttpResponseMessage GetSymbol(string request)
         {
+            var list = Newtonsoft.Json.JsonConvert.DeserializeObject(request, typeof(List<StrokeData>)) as List<StrokeData>;
+            var latex = service.Submit(list);
             var res = new RecognitionResults()
             {
                 instanceIDs = 0,
+
                 Result = new Result()
                 {
                     certainty = string.Empty,
-                    symbol = string.Empty
+                    symbol = list.Count == 1 ? RemoveLatexCharacters(latex) : latex
                 }
             };
 
-            var reqObj = ParseXMl(request);
-            if (reqObj != null)
-            {
-                var seg = reqObj.Segment[0];
-                res.instanceIDs = seg.instanceID;
-                var points = seg.points.Replace('|', ',');
-                var symbol = RemoveLatexCharacters(GetFraz(points));
-                res.Result.symbol = symbol;
-            }
 
             return Request.CreateResponse<RecognitionResults>(HttpStatusCode.OK, res, Configuration.Formatters.XmlFormatter);
         }
+
+
+
+
+        //public HttpResponseMessage GetSymbol(string request)
+        //{
+        //    var list = Newtonsoft.Json.JsonConvert.DeserializeObject(request, typeof(List<StrokeData>)) as List<StrokeData>;
+
+        //    var res = new RecognitionResults()
+        //    {
+        //        instanceIDs = 0,
+        //        Result = new Result()
+        //        {
+        //            certainty = string.Empty,
+        //            symbol = service.Submit(list)
+        //        }
+        //    };
+
+
+        //    return Request.CreateResponse<RecognitionResults>(HttpStatusCode.OK, res, Configuration.Formatters.XmlFormatter);
+        //}
 
         private string RemoveLatexCharacters(string latex)
         {
