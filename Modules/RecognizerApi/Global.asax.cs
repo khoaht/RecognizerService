@@ -22,6 +22,7 @@ namespace RecognizerApi
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.SetSerializer<RecognitionResults>(new RecognitionSerializer());
+            GlobalConfiguration.Configuration.Formatters.XmlFormatter.SetSerializer<AlignResponse>(new AlignResponseSerializer());
         }
     }
 }
