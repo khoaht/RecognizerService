@@ -3,13 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MipEngine", "MipEngine\MipEngine.csproj", "{4718DB97-DADF-4B0A-8ED2-5CC27244DCBC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecognizerService", "RecognizerService\RecognizerService.csproj", "{84901CCA-ED6E-46EE-A630-10A8C1927D07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathRecognizer", "Mathecognizer\MathRecognizer.csproj", "{E6B6C271-2C8A-441A-9948-953037AEEA19}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecognizerApi", "Modules\RecognizerApi\RecognizerApi.csproj", "{6F34D5E0-6803-4FF1-B0AA-087849E08E24}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "Modules\RecognizerApi\WebApi.csproj", "{6F34D5E0-6803-4FF1-B0AA-087849E08E24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,18 +13,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4718DB97-DADF-4B0A-8ED2-5CC27244DCBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4718DB97-DADF-4B0A-8ED2-5CC27244DCBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4718DB97-DADF-4B0A-8ED2-5CC27244DCBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4718DB97-DADF-4B0A-8ED2-5CC27244DCBC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{84901CCA-ED6E-46EE-A630-10A8C1927D07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{84901CCA-ED6E-46EE-A630-10A8C1927D07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84901CCA-ED6E-46EE-A630-10A8C1927D07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84901CCA-ED6E-46EE-A630-10A8C1927D07}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E6B6C271-2C8A-441A-9948-953037AEEA19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E6B6C271-2C8A-441A-9948-953037AEEA19}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E6B6C271-2C8A-441A-9948-953037AEEA19}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E6B6C271-2C8A-441A-9948-953037AEEA19}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6F34D5E0-6803-4FF1-B0AA-087849E08E24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6F34D5E0-6803-4FF1-B0AA-087849E08E24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F34D5E0-6803-4FF1-B0AA-087849E08E24}.Release|Any CPU.ActiveCfg = Release|Any CPU

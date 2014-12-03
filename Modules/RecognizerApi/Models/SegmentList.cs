@@ -38,4 +38,5 @@ namespace RecognizerApi.Models
         public string points { get; set; }
         [XmlAttribute("symbol")]
         public string symbol { get; set; }
-        #endregion                                                              }}}
+        #endregion                                                              
+                                                                                }}
