@@ -7,12 +7,9 @@ using System.Xml;
 using System.Xml.Xsl;
 using micautLib;
 
-namespace RecognizerService
-{
-    public static class Util
-    {
-        public static string MathMlToLatex(string xml)
-        {
+namespace RecognizerService                                                     {
+    public static class Util                                                    {
+        public static string MathMlToLatex(string xml)                          {
             var transform = new XslCompiledTransform();
             transform.Load(typeof(mmltex));
 
@@ -25,11 +22,9 @@ namespace RecognizerService
             writer.Close();
             string latex = sw.ToString();
 
-            return latex;
-        }
+            return latex;                                                       }
 
-        public static string GetMathMlFromClipboard()
-        {
+        public static string GetMathMlFromClipboard()                           {
             var ido = Clipboard.GetDataObject();
             var data = (MemoryStream)ido.GetData("MathML");
 
@@ -41,11 +36,9 @@ namespace RecognizerService
             using (var sr = new StreamReader(data))
                 xml = sr.ReadToEnd();
 
-            return xml;
-        }
+            return xml;                                                         }
 
-        public static string PrintXml(string xml)
-        {
+        public static string PrintXml(string xml)                               {
             var doc = new XmlDocument();
             doc.Load(xml);
 
@@ -53,16 +46,12 @@ namespace RecognizerService
             var encoding = Encoding.UTF8;
 
             var xmlSettings =
-                new XmlWriterSettings {
+                new XmlWriterSettings                                           {
                   Encoding = encoding,
-                  Indent = true,
-            };
+                  Indent = true                                                 };
 
             var xmlWriter = XmlWriter.Create(textWriter, xmlSettings);
 
             doc.Save(xmlWriter);
 
-            return textWriter.ToString();
-        }
-    }
-}
+            return textWriter.ToString();                                       }}}

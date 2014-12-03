@@ -4,10 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RecognizerService
-{
-    public class Constants
-    {
-        public const string ServiceName = "Math Input Panel";
-    }
-}
+namespace RecognizerService                                                     {
+    public class Constants                                                      {
+        public const string ServiceName = "Math Input Panel";                   }}

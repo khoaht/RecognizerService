@@ -8,15 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace RecognizerService
-{
-    public interface IRecognizerService
-    {       
+namespace RecognizerService                                                     {
+    public interface IRecognizerService                                         {       
         string Submit(int[] points);
         string Result { get; }
         void CallBack();
         void End();
-
-        string Submit(IList<StrokeData> strokes);
-    }
-}
+        string Submit(IList<StrokeData> strokes);                               }}
