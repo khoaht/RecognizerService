@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecognizerService", "RecognizerService\RecognizerService.csproj", "{84901CCA-ED6E-46EE-A630-10A8C1927D07}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recognizer.Core", "RecognizerService\Recognizer.Core.csproj", "{84901CCA-ED6E-46EE-A630-10A8C1927D07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "Modules\RecognizerApi\WebApi.csproj", "{6F34D5E0-6803-4FF1-B0AA-087849E08E24}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recognizer.Api", "Modules\RecognizerApi\Recognizer.Api.csproj", "{6F34D5E0-6803-4FF1-B0AA-087849E08E24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
