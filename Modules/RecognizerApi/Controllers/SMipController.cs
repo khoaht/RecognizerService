@@ -8,50 +8,35 @@ using System.Web.Http.Cors;
 using RecognizerApi.Models;
 using RecognizerService;
 
-namespace RecognizerApi.Controllers
-{
+namespace RecognizerApi.Controllers                                             {
 
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class SMipController : ApiController
-    {
+    public class SMipController : ApiController                                 {
         private RecognizerService.IRecognizerService service;
-
-        public SMipController(RecognizerService.IRecognizerService service)
-        {
-            this.service = service;
-        }
+        public SMipController(RecognizerService.IRecognizerService service)     {
+            this.service = service;                                             }
 
         /// <summary>
         /// handle dropping of the mouse events
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public HttpResponseMessage Get(string request)
-        {
-            var list = Newtonsoft.Json.JsonConvert.DeserializeObject(request, typeof(List<StrokeData>)) as List<StrokeData>;
+        public HttpResponseMessage Get(string request)                          {
+            var list = Newtonsoft.Json.JsonConvert.DeserializeObject(request, 
+                typeof(List<StrokeData>)) as List<StrokeData>;
             var latex = service.Submit(list);
-            var res = new RecognitionResults()
-            {
+            var res = new RecognitionResults()                                  {
                 instanceIDs = 0,
-
-                Result = new Result()
-                {
+                Result = new Result()                                           {
                     certainty = string.Empty,
-                    symbol =RemoveLatexCharacters(latex)
-                }
-            };
+                    symbol =RemoveLatexCharacters(latex)                        }};
 
-            return Request.CreateResponse<RecognitionResults>(HttpStatusCode.OK, res, Configuration.Formatters.XmlFormatter);
-        }
+            return Request.CreateResponse<RecognitionResults>(HttpStatusCode.OK, 
+                res, Configuration.Formatters.XmlFormatter);                    }
 
-        private string RemoveLatexCharacters(string latex)
-        {
-            //$\\frac{}{}$
+        private string RemoveLatexCharacters(string latex)                      {
             var result = latex.Replace("$", string.Empty);
             result = result.Replace("\\", string.Empty);
             result = result.Replace("{", string.Empty);
             result = result.Replace("}", string.Empty);
-            return result;
-        }
-    }
-}
+            return result;                                                      }}}
