@@ -15,10 +15,8 @@ namespace RecognizerApi.Controllers                                             
     public class MMipController : ApiController                                 {
         private RecognizerService.IRecognizerService service;
 
-        public MMipController(RecognizerService.IRecognizerService service)
-        {
-            this.service = service;
-        }
+        public MMipController(RecognizerService.IRecognizerService service)     {
+            this.service = service;                                             }
 
         private string RemoveLatexCharacters(string latex)                      {
             var result = latex.Replace("$", string.Empty);
@@ -33,29 +31,25 @@ namespace RecognizerApi.Controllers                                             
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpGet]
-        public HttpResponseMessage Get(string request)
-        {
-            var list = Newtonsoft.Json.JsonConvert.DeserializeObject(request,
-                typeof(List<StrokeData>)) as List<StrokeData>;
-            var latex = service.Submit(list);
-            var res = new RecognitionResults()
-            {
+        public HttpResponseMessage Get(string request)                          {
+            var res = new RecognitionResults()                                  {
                 instanceIDs = 0,
-                Result = new Result()
-                {
+                Result = new Result()                                           {
                     certainty = string.Empty,
-                    symbol = RemoveLatexCharacters(latex)
-                }
-            };
+                    symbol = string.Empty                                       }};
+            if (!string.IsNullOrEmpty(request))                                 {
+                var list = 
+                    Newtonsoft.Json.JsonConvert.DeserializeObject(request,
+                    typeof(List<StrokeData>)) as List<StrokeData>;
+                var latex = service.Submit(list);
+
+                res.Result.symbol = RemoveLatexCharacters(latex);               }
 
             return Request.CreateResponse<RecognitionResults>(HttpStatusCode.OK,
-                res, Configuration.Formatters.XmlFormatter);
-        }
+                                    res, Configuration.Formatters.XmlFormatter);}
 
         [HttpPost]
         public HttpResponseMessage Post(StrokeData[] request)                   {
-            var latex = service.Submit(request.ToList());
-
             var res = new AlignResponse()                                       {
                 result = "0",
                 error = string.Empty,
@@ -65,10 +59,13 @@ namespace RecognizerApi.Controllers                                             
                     message = string.Empty                                      },
                 SegmentList = new SegmentList[1]                                };
 
-            res.SegmentList[0] = new SegmentList                                {
-                TexString = latex,
-                guid = Guid.NewGuid().ToString(),
-                variable = string.Empty                                         };
+            if (request != null && request.Length > 0)                          {
+                var latex = service.Submit(request.ToList());              
 
-            return Request.CreateResponse<AlignResponse>(HttpStatusCode.OK, 
+                res.SegmentList[0] = new SegmentList                            {
+                    TexString = latex,
+                    guid = Guid.NewGuid().ToString(),
+                    variable = string.Empty                                     };}
+
+            return Request.CreateResponse<AlignResponse>(HttpStatusCode.OK,
                 res, Configuration.Formatters.XmlFormatter);                    }}}
