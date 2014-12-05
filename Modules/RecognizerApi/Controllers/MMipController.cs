@@ -9,12 +9,10 @@ using Newtonsoft.Json.Linq;
 using RecognizerApi.Models;
 using RecognizerService;
 
-namespace RecognizerApi.Controllers
-{
+namespace RecognizerApi.Controllers                                             {
 
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class MMipController : ApiController
-    {
+    public class MMipController : ApiController                                 {
         private RecognizerService.IRecognizerService service;
 
         public MMipController(RecognizerService.IRecognizerService service)
@@ -22,67 +20,55 @@ namespace RecognizerApi.Controllers
             this.service = service;
         }
 
+        private string RemoveLatexCharacters(string latex)                      {
+            var result = latex.Replace("$", string.Empty);
+            result = result.Replace("\\", string.Empty);
+            result = result.Replace("{", string.Empty);
+            result = result.Replace("}", string.Empty);
+            return result;                                                      }
+
         /// <summary>
         /// handle dropping of the mouse events
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-
-
+        [HttpGet]
         public HttpResponseMessage Get(string request)
         {
-            var list = Newtonsoft.Json.JsonConvert.DeserializeObject(request, typeof(List<StrokeData>)) as List<StrokeData>;
+            var list = Newtonsoft.Json.JsonConvert.DeserializeObject(request,
+                typeof(List<StrokeData>)) as List<StrokeData>;
             var latex = service.Submit(list);
-
-            var res = new AlignResponse()
+            var res = new RecognitionResults()
             {
-                result = "0",
-                error = string.Empty,
-                exerciseStep = new exerciseStep()
+                instanceIDs = 0,
+                Result = new Result()
                 {
-                    isfinish = false,
-                    istrue = true,
-                    message = string.Empty
-                },
-                SegmentList = new SegmentList[1]
+                    certainty = string.Empty,
+                    symbol = RemoveLatexCharacters(latex)
+                }
             };
 
-            res.SegmentList[0] = new SegmentList
-                {
-                    TexString = latex,
-                    guid = Guid.NewGuid().ToString(),
-                    variable = string.Empty
-                };
-
-            return Request.CreateResponse<AlignResponse>(HttpStatusCode.OK, res, Configuration.Formatters.XmlFormatter);
+            return Request.CreateResponse<RecognitionResults>(HttpStatusCode.OK,
+                res, Configuration.Formatters.XmlFormatter);
         }
 
         [HttpPost]
-        public HttpResponseMessage Post(StrokeData[] request)
-        {
+        public HttpResponseMessage Post(StrokeData[] request)                   {
             var latex = service.Submit(request.ToList());
 
-            var res = new AlignResponse()
-            {
+            var res = new AlignResponse()                                       {
                 result = "0",
                 error = string.Empty,
-                exerciseStep = new exerciseStep()
-                {
+                exerciseStep = new exerciseStep()                               {
                     isfinish = false,
                     istrue = true,
-                    message = string.Empty
-                },
-                SegmentList = new SegmentList[1]
-            };
+                    message = string.Empty                                      },
+                SegmentList = new SegmentList[1]                                };
 
-            res.SegmentList[0] = new SegmentList
-            {
+            res.SegmentList[0] = new SegmentList                                {
                 TexString = latex,
                 guid = Guid.NewGuid().ToString(),
-                variable = string.Empty
-            };
+                variable = string.Empty                                         };
 
-            return Request.CreateResponse<AlignResponse>(HttpStatusCode.OK, res, Configuration.Formatters.XmlFormatter);
-        }
-    }
-}
+            return Request.CreateResponse<AlignResponse>(HttpStatusCode.OK, 
+                res, Configuration.Formatters.XmlFormatter);                    }}}

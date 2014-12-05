@@ -164,7 +164,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MMipController.cs" />
-    <Compile Include="Controllers\SMipController.cs" />
     <Compile Include="Models\RecognitionResults.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
