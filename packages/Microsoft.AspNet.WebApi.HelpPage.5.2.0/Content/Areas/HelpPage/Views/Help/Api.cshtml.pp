@@ -1,5 +1,5 @@
-@using System.Web.Http
-@using RecognizerApi.Areas.HelpPage.Models
+﻿@using System.Web.Http
+@using $rootnamespace$.Areas.HelpPage.Models
 @model HelpPageApiModel
 
 @{

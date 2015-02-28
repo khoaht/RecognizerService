@@ -1,8 +1,8 @@
-@using System.Collections.Generic
+﻿@using System.Collections.Generic
 @using System.Collections.ObjectModel
 @using System.Web.Http.Description
 @using System.Threading
-@using RecognizerApi.Areas.HelpPage.ModelDescriptions
+@using $rootnamespace$.Areas.HelpPage.ModelDescriptions
 @model IList<ParameterDescription>
 
 @if (Model.Count > 0)

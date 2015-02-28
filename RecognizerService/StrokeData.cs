@@ -8,6 +8,7 @@ namespace RecognizerService                                                     
     /// Stroke Data
     /// </summary>
     public class StrokeData                                                     {
+        public int InstanceId { get; set; }
         public string Points   { get; set; }
 
         public long TranslateX { get; set; }

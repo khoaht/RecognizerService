@@ -1,8 +1,8 @@
-@using System.Web.Http
+﻿@using System.Web.Http
 @using System.Web.Http.Controllers
 @using System.Web.Http.Description
-@using RecognizerApi.Areas.HelpPage
-@using RecognizerApi.Areas.HelpPage.Models
+@using $rootnamespace$.Areas.HelpPage
+@using $rootnamespace$.Areas.HelpPage.Models
 @model IGrouping<HttpControllerDescriptor, ApiDescription>
 
 @{

@@ -1,4 +1,4 @@
-@using RecognizerApi.Areas.HelpPage.ModelDescriptions
+﻿@using $rootnamespace$.Areas.HelpPage.ModelDescriptions
 @model CollectionModelDescription
 @if (Model.ElementDescription is ComplexTypeModelDescription)
 {

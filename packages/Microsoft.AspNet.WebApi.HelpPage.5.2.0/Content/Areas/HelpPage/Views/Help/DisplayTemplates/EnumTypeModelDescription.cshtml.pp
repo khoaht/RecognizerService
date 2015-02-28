@@ -1,4 +1,4 @@
-@using RecognizerApi.Areas.HelpPage.ModelDescriptions
+﻿@using $rootnamespace$.Areas.HelpPage.ModelDescriptions
 @model EnumTypeModelDescription
 
 <p>Possible enumeration values:</p>

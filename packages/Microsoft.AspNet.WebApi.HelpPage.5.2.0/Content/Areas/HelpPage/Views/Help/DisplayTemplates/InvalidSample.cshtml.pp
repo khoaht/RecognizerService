@@ -1,4 +1,4 @@
-@using RecognizerApi.Areas.HelpPage
+﻿@using $rootnamespace$.Areas.HelpPage
 @model InvalidSample
 
 @if (HttpContext.Current.IsDebuggingEnabled)

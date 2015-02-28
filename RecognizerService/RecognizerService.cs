@@ -85,8 +85,8 @@ namespace RecognizerService                                                     
             int[] pnts = new int[length];
 
             for (int i = 0; i < length; i++)                                    {
-                long p = 
-                    long.Parse(string.IsNullOrEmpty(arrs[i]) ? "0" : arrs[i]);
+                var p = 
+                    float.Parse(string.IsNullOrEmpty(arrs[i]) ? "0" : arrs[i]);
                 pnts[i] = 
                     (i % 2 == 0) ? (int)(p + deltaX) : (int)(p + deltaY); }
             return pnts;                                                        }}}
